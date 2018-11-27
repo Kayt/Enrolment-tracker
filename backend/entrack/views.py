@@ -15,6 +15,10 @@ api.add_resource(CourseList, '/courses')
 api.add_resource(Enrolment, '/enrolment')
 api.add_resource(EnrolmentList, '/enrolments')
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @celery.task
 def create_csv(data):
     enrolments = Enrolment.query.all()
