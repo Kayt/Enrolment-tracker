@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <title>Hello, world!</title>
+  </head>
+  <body onload="getData()">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Enrolment Tracker</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link modal-trigger" > Generate CSV </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"> New Course </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"> New Student </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#"> Enrol a Student </a>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <br>
+
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Courses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Students</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Enrolments</a>
+            </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <table class="responsive-table highlight">
+                    <thead>
+                        <tr>
+                            <th>Course</th>
+                            <th>Description</th>
+                          
+                        </tr>
+                    </thead>
+        
+                    <tbody id="courses">
+                       
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <table class="responsive-table highlight">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Surname</th>
+                           
+                        </tr>
+                    </thead>
+        
+                    <tbody id="students">
+                      
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <table class="responsive-table highlight">
+                    <thead>
+                        <tr>
+                            <th>Student </th>
+                            <th>Course</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+        
+                    <tbody id="enrollment">
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+        <h4>Modal Header</h4>
+        <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat .modal-close">Agree</a>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      function getData(){
+        $("#courses").html("");
+        $("#students").html("");
+        $("#enrolements").html("");
+
+        getCourses();
+        getEnrollment();
+        getStudents();
+        
+      }    
+      function getCourses(){
+        $(document).ready(function() {
+            $.ajax({
+              url: "http://127.0.0.1:5000/courses",
+              type: "GET",
+              dataType: "json", // added data type
+              success: function(res) {
+                response = res.courses;
+        
+                $.each(response, function(i, item) { 
+                    $("#courses").append('<tr> <td>'+ item.name+ '</td><td>'+ item.description+'</td>');
+                });
+              }
+            });
+          });
+      }  
+      function getEnrollment(){
+        $(document).ready(function() {
+            $.ajax({
+              url: "http://127.0.0.1:5000/enrolments",
+              type: "GET",
+              dataType: "json", // added data type
+              success: function(res) {
+                response = res.enrolments;
+        
+                $.each(response, function(i, item) { 
+                    $("#enrollment").append('<tr> <td>'+ item.student+ '</td><td>'+ item.course+'</td></td><td>'+ item.year+'</td>');
+                });
+              }
+            });
+          });
+      }
+      function getStudents(){
+        $(document).ready(function() {
+            $.ajax({
+              url: "http://127.0.0.1:5000/students",
+              type: "GET",
+              dataType: "json", // added data type
+              success: function(res) {
+                response = res.students;
+                
+                $(function() {
+                    
+                    $.each(response, function(i, item) { 
+                        $("#students").append('<tr> <td>'+ item.name+ '</td><td>'+ item.surname+'</td>');
+                    });
+                    
+                   
+                });
+              }
+            });
+          });
+      }
+    </script>
+  </body>
+</html>
