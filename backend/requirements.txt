@@ -5,6 +5,7 @@ billiard==3.5.0.4
 celery==4.2.1
 Click==7.0
 Flask==1.0.2
+Flask-Cors==3.0.7
 Flask-JWT==0.3.2
 flask-marshmallow==0.9.0
 Flask-Migrate==2.3.0
@@ -16,10 +17,12 @@ kombu==4.2.1
 Mako==1.0.7
 MarkupSafe==1.1.0
 marshmallow==2.16.3
+numpy==1.15.4
 PyJWT==1.4.2
 python-dateutil==2.7.5
 python-editor==1.0.3
 pytz==2018.7
+redis==2.10.3
 six==1.11.0
 SQLAlchemy==1.2.14
 vine==1.1.4

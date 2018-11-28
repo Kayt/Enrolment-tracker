@@ -1,37 +1,42 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+   
+    <title>Enrolment Tracker</title>
+</head>
 
-    <title>Hello, world!</title>
-  </head>
-  <body onload="getData()">
+<body onload="getData()">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Enrolment Tracker</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link modal-trigger" > Generate CSV </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"> New Course </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"> New Student </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="#"> Enrol a Student </a>
-            </li>
+                <li class="nav-item active">
+                    <a class="nav-link modal-trigger" onclick="createCSV()"> Generate CSV </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="modal" data-target="#newCourse"> New Course </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="modal" data-target="#newStudent"> New Student </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="modal" data-target="#enroll_student"> Enrol a Student </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -42,28 +47,31 @@
 
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Courses</a>
+                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                    aria-controls="pills-home" aria-selected="true">Courses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Students</a>
+                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                    aria-controls="pills-profile" aria-selected="false">Students</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Enrolments</a>
+                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+                    aria-controls="pills-contact" aria-selected="false">Enrolments</a>
             </li>
-            </ul>
-            <div class="tab-content" id="pills-tabContent">
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                 <table class="responsive-table highlight">
                     <thead>
                         <tr>
                             <th>Course</th>
                             <th>Description</th>
-                          
+
                         </tr>
                     </thead>
-        
+
                     <tbody id="courses">
-                       
+
                     </tbody>
                 </table>
             </div>
@@ -73,12 +81,12 @@
                         <tr>
                             <th>Name</th>
                             <th>Surname</th>
-                           
+
                         </tr>
                     </thead>
-        
+
                     <tbody id="students">
-                      
+
                     </tbody>
                 </table>
             </div>
@@ -91,98 +99,158 @@
                             <th>Year</th>
                         </tr>
                     </thead>
-        
+
                     <tbody id="enrollment">
-                       
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-        <h4>Modal Header</h4>
-        <p>A bunch of text</p>
-        </div>
-        <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat .modal-close">Agree</a>
+    <!-- Optional JavaScript -->
+    <!-- Compiled and minified JavaScript -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+
+        <div id="statusResult" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+        
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Enroll Student</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        
+                        </div>
+                        <div class="modal-body">
+                            <p>Your CSV is being created!</p>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+
+        <div id="newCourse" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+        
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add New Course </h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        
+                        </div>
+                        <div class="modal-body">
+                            <form action="/" method="POST" id="new_course">
+                                <div class="form-group"><label>Course Name</label>
+                                    <input type="text" name="year" id="course_name" class="form-control">
+                                </div>
+        
+                                <div class="form-group"><label>Course Description</label>
+                                    <input type="text" name="year" id="course_desc" class="form-control">
+                                </div>
+        
+        
+        
+                                <div class="loader" style="margin-left:40%; display:none"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> &nbsp;
+                            <button type="submit" class="btn btn-primary">Save Details </button>
+                            </form>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+        <div id="newStudent" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+        
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add New Student </h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        
+                        </div>
+                        <div class="modal-body">
+                            <form action="/" method="POST" id="new_student">
+                                <div class="form-group"><label>First Name</label>
+                                    <input type="text" name="year" id="student_name" class="form-control">
+                                </div>
+        
+                                <div class="form-group"><label>Surname</label>
+                                    <input type="text" name="year" id="student_surname" class="form-control">
+                                </div>
+        
+        
+        
+                                <div class="loader" style="margin-left:40%; display:none"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> &nbsp;
+                            <button type="submit" class="btn btn-primary">Save Details </button>
+                            </form>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+        
+
+    <div id="enroll_student" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Enroll Student</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <form action="/" method="POST" id="new_enrolment">
+                        <div class="form-group"><label>Student Name</label>
+                            <select class="form-control" name="student" id="all_students"></div>
+
+
+                        </select>
+                        <div class="form-group"> <label>Course</label>
+                            <select class="form-control" name="courses" id="all_courses"></div>
+
+
+                        </select>
+                        <div class="form-group"><label>Enter Year</label>
+                            <input type="number" name="year" id="year" class="form-control"></div>
+
+
+                        <div class="loader" style="margin-left:40%; display:none"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> &nbsp;
+                    <button type="submit" class="btn btn-primary">Save Details </button>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- Optional JavaScript -->
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-      function getData(){
-        $("#courses").html("");
-        $("#students").html("");
-        $("#enrolements").html("");
+    
 
-        getCourses();
-        getEnrollment();
-        getStudents();
-        
-      }    
-      function getCourses(){
-        $(document).ready(function() {
-            $.ajax({
-              url: "http://127.0.0.1:5000/courses",
-              type: "GET",
-              dataType: "json", // added data type
-              success: function(res) {
-                response = res.courses;
-        
-                $.each(response, function(i, item) { 
-                    $("#courses").append('<tr> <td>'+ item.name+ '</td><td>'+ item.description+'</td>');
-                });
-              }
-            });
-          });
-      }  
-      function getEnrollment(){
-        $(document).ready(function() {
-            $.ajax({
-              url: "http://127.0.0.1:5000/enrolments",
-              type: "GET",
-              dataType: "json", // added data type
-              success: function(res) {
-                response = res.enrolments;
-        
-                $.each(response, function(i, item) { 
-                    $("#enrollment").append('<tr> <td>'+ item.student+ '</td><td>'+ item.course+'</td></td><td>'+ item.year+'</td>');
-                });
-              }
-            });
-          });
-      }
-      function getStudents(){
-        $(document).ready(function() {
-            $.ajax({
-              url: "http://127.0.0.1:5000/students",
-              type: "GET",
-              dataType: "json", // added data type
-              success: function(res) {
-                response = res.students;
-                
-                $(function() {
-                    
-                    $.each(response, function(i, item) { 
-                        $("#students").append('<tr> <td>'+ item.name+ '</td><td>'+ item.surname+'</td>');
-                    });
-                    
-                   
-                });
-              }
-            });
-          });
-      }
-    </script>
-  </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/static/js/custom.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+   
+</body>
+
 </html>
